@@ -1,0 +1,45 @@
+{
+  "id": "c9d16cd2-90e3-41fd-a9f5-a79f7e417fe7",
+  "prevId": "31b03eb2-2ab6-4f4f-8cf8-372368479dd8",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.place": {
+      "name": "place",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "review": {
+          "name": "review",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::json"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

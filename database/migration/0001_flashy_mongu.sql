@@ -1,0 +1,1 @@
+ALTER TABLE "place" RENAME COLUMN "place" TO "name";

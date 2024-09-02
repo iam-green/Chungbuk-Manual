@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "ansungyangmyun";
+  src: url("/font/Ansungtangmyun-ESG.ttf") format("truetype");
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}

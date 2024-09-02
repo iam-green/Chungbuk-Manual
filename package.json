@@ -1,0 +1,34 @@
+{
+  "name": "chungbuk-manual",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit push",
+    "studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
+    "next": "14.2.5",
+    "openai": "^4.56.0",
+    "pg": "^8.12.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-unity-webgl": "^9.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/pg": "^8.11.6",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "drizzle-kit": "^0.24.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
+    "typescript": "^5"
+  }
+}

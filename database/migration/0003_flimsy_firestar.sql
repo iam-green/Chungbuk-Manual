@@ -1,0 +1,1 @@
+ALTER TABLE "place" ADD COLUMN "image" text NOT NULL;

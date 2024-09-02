@@ -1,0 +1,71 @@
+name: Docker Project Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION: ${{ github.sha }}
+  OWNER: ${{ github.repository_owner }}
+  REPO: ${{ github.repository }}
+  REPO_NAME: ${{ github.event.repository.name }}
+  HOST_PORT: 4003
+  CONTAINER_PORT: 3000
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setting Environment
+        id: env
+        run: |
+          echo "OWNER=${OWNER,,}" >> $GITHUB_OUTPUT
+          echo "REPO=${REPO,,}" >> $GITHUB_OUTPUT
+          echo "REPO_NAME=${REPO_NAME,,}" >> $GITHUB_OUTPUT
+          echo "GHCR_REPO=ghcr.io/${OWNER,,}/${REPO_NAME,,}" >> $GITHUB_OUTPUT
+          echo "${{ secrets.ENV }}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v2
+      - name: Set up docker buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ steps.env.outputs.OWNER }}
+          password: ${{ secrets.GHCR_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ steps.env.outputs.GHCR_REPO }}:latest
+          build-args: ${{ secrets.ENV }}
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setting Environment
+        id: env
+        run: |
+          echo "OWNER=${OWNER,,}" >> $GITHUB_OUTPUT
+          echo "REPO=${REPO,,}" >> $GITHUB_OUTPUT
+          echo "REPO_NAME=${REPO_NAME,,}" >> $GITHUB_OUTPUT
+          echo "GHCR_REPO=ghcr.io/${OWNER,,}/${REPO_NAME,,}" >> $GITHUB_OUTPUT
+      - name: Connect Server & Run Script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ steps.env.outputs.OWNER }} --password-stdin
+            echo "${{ secrets.ENV }}" > .env
+            docker stop ${{ steps.env.outputs.REPO_NAME }} && docker rm ${{ steps.env.outputs.REPO_NAME }} && docker rmi ${{ steps.env.outputs.GHCR_REPO }}:latest
+            docker run -d -p ${{ env.HOST_PORT }}:${{ env.CONTAINER_PORT }} --env-file=.env --name ${{ steps.env.outputs.REPO_NAME }} --restart always ${{ steps.env.outputs.GHCR_REPO }}:latest
+            rm -rf .env
