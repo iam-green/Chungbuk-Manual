@@ -4,7 +4,7 @@
 ### 🙋‍♂️ 팀원 (가나다순 정렬)
 - 팀장 <a href="https://github.com/doubleyou77">김형진</a> : 기획 및 프로젝트 매니저
 - 팀원 <a href="https://github.com/Sennyru">여준혁</a> : 프론트엔드 개발 (<a href="https://github.com/Sennyru/Chungbuk-Manual-Unity">Unity</a>) 
-- 팀원 <a href="https://github.com/iam-green">윤도현</a> : 프론트엔드 및 백엔드 개발 (Next.js 등)
+- 팀원 <a href="https://github.com/yundohyun">윤도현</a> : 프론트엔드 및 백엔드 개발 (Next.js 등)
 - 팀원 <a href="https://github.com/jaehyeok3017">최재혁</a> : 디자인 및 발표
 
 ### 📚 기획의도
